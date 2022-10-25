@@ -1,13 +1,8 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
-import { useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import {
-  DefaultTheme,
-  DarkTheme,
-} from '@react-navigation/native';
+
 
 //Screens
 import HomeScreen from './screens/HomeScreen';
