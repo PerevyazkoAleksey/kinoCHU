@@ -1,26 +1,21 @@
 import { View, Text,Image, StyleSheet} from 'react-native'
 import React from 'react'
+import Icons from '@expo/vector-icons/MaterialIcons'
 
-export default function Items(props) {
+export default function SearchItems(props) {
 
-  const geColor = (rating) => {
-    if (rating<4.5) {
-      return <View style={styles.redRating}><Text style={styles.rating_text}>{rating}</Text></View>
-    }else if (rating>4.5 && rating<7.5) {
-      return <View style={styles.orangeRating}><Text style={styles.rating_text}>{rating}</Text></View>
-    }else {
-      return <View style={styles.greenRating}><Text style={styles.rating_text}>{rating}</Text></View>
-    }
-  }
 
   return (
-    <View style={{marginLeft: 20, flexDirection: 'row', flexWrap: 'wrap',width:'100%'}}>
+    <View style={{marginLeft: 20,width:'100%'}}>
+      <Text style={{marginBottom: 35}}>{props.items.length} movies was found</Text>
       {props.items.map(el => 
-        <View style={{width: '50%', alignItems: 'left', marginBottom: 20}} key={el.id}>
-          {geColor(el.imDbRating)}
-          <Image style={{borderRadius: 10}} source={{height: 216,width: 152,uri: el.image}} resizeMode={'cover'} height={216} width={152}/>
-          <Text style={{width: '80%', textAlign: 'left', marginTop: 10}}>{el.title}</Text>
-          <Text>{el.year}</Text>
+        <View style={{alignItems: 'left', marginBottom: 20,flexDirection: 'row', flexWrap: 'wrap'}} key={el.id}>
+          <Image style={{borderRadius: 10}} source={{height: 80,width: '20%',uri: el.image}} resizeMode={'cover'} height={80} width={'20%'}/>
+          <View style={{width: '50%',marginLeft: 10}}>
+            <Text style={{textAlign: 'left', marginTop: 10}}>{el.title}</Text>
+            <Text style={{textAlign: 'left', marginTop: 10}}>{el.description}</Text>
+          </View>
+          <Icons name="favorite-border" size={20} style={{marginLeft: '10%', marginTop: 20}}/>
         </View>
       )}
     </View>

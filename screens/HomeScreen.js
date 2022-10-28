@@ -51,7 +51,7 @@ export default function HomeScreen() {
   }
 
   return (
-      <View>
+      <View style={{marginBottom: 80}}>
         <Header name={'home page'}/>
         <ScrollView>
           <Categories chooseCategories={chooseCategories}/>
