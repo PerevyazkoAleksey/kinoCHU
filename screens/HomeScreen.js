@@ -3,7 +3,7 @@ import React, { useState, useEffect }from 'react'
 import axios from 'axios'
 import Header from '../components/Header'
 import Categories from '../components/Categories'
-import Items from '../components/Items'
+import Items from '../components/HomeItems'
 
 export default function HomeScreen() {
   const API_KEY = 'k_3y9a81jt'
@@ -49,7 +49,6 @@ export default function HomeScreen() {
     }
     setCurrentItems(items.filter(el=>el.genre === category))
   }
-
   return (
       <View style={{marginBottom: 80}}>
         <Header name={'home page'}/>

@@ -5,11 +5,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 //Screens
-import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen'
 import SearchScreen from './screens/SearchScreen';
 import ListScreen from './screens/ListScreen';
 import FriendsScreen from './screens/FriendsScreen';
+import HomeNav from './screens/HomeNav';
 
 const Tab = createBottomTabNavigator();
 const MyTheme = {
@@ -53,7 +53,7 @@ export default function App() {
           tabBarInactiveTintColor: '#FEFEFE',
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false}}/>
+        <Tab.Screen name="Home" component={HomeNav} options={{ headerShown: false}}/>
         <Tab.Screen name="Friends" component={FriendsScreen} options={{ headerShown: false}}/>
         <Tab.Screen name="Search" component={SearchScreen} options={{ headerShown: false}}/>
         <Tab.Screen name="List" component={ListScreen} options={{ headerShown: false}}/>

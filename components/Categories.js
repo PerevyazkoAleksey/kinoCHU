@@ -28,7 +28,7 @@ export default function Categories(props) {
   const [categorie, setCategorie] = useState(categories)
 
   return (
-    <View>
+    <View style={{marginLeft: '3%', width: '100%'}}>
       <Text style={styles.title}>Genres</Text>
       <View style={styles.categories}>
         {categorie.map(el => (
