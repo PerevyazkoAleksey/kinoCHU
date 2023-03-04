@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, StyleSheet, ScrollView} from 'react-native'
+import { View, ScrollView} from 'react-native'
 import React, { useState, useEffect }from 'react'
 import axios from 'axios'
 import Header from '../components/Header'
@@ -6,54 +6,43 @@ import Categories from '../components/Categories'
 import Items from '../components/HomeItems'
 
 export default function HomeScreen() {
-  const API_KEY = 'k_3y9a81jt'
-  const items = [
-    {
-      name: 'Horror 1',
-      genre: 'horror',
-    },
-    {
-      name: 'Comedy Club',
-      genre: 'comedy',
-    },
-    {
-      name: 'Titanic',
-      genre: 'drama',
-    },
-    {
-      name: 'Naruto',
-      genre: 'anime',
-    }
-  ]
+  const API_KEY = 'k_3y9a81jt';
   const [movies, setMovies] = useState([])
 
   async function getMovies() {
-    try{
-      const {data:{items}} = await axios.get("https://imdb-api.com/en/API/MostPopularMovies/k_3y9a81jt")
-      setMovies(items)
-    }
-    catch (error) {
+    try {
+      if(sortKey == "Movie"){
+        const {data:{items}} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films?type=FILM`,{
+          headers: {
+            'X-API-KEY': '4d19da17-37ec-4a2e-837b-6e12cdb42c8a',
+            'Content-Type': 'application/json',
+          }
+      })
+        setMovies(items)
+      }
+      else if (sortKey == "Serials"){
+        const {data:{items}} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films?type=TV_SERIES`,{
+        headers: {
+          'X-API-KEY': '4d19da17-37ec-4a2e-837b-6e12cdb42c8a',
+          'Content-Type': 'application/json',
+        }
+    })
+        setMovies(items)
+      }
+    } catch (error) {
       console.log(error)
     }
   }
-  
+  const [sortKey, setSortKey] = useState("Movie");
   useEffect(() => {
     getMovies();
-  },[])
+  },[sortKey]);
 
-  const [currentItems, setCurrentItems] = useState(movies)
-  const chooseCategories = (category) => {
-    if (category === 'all') {
-      setCurrentItems(items)
-      return
-    }
-    setCurrentItems(items.filter(el=>el.genre === category))
-  }
   return (
       <View style={{marginBottom: 80}}>
         <Header name={'home page'}/>
         <ScrollView>
-          <Categories chooseCategories={chooseCategories}/>
+          <Categories sortKeyChange={setSortKey}/>
           <Items items={movies}/>
         </ScrollView>
       </View>

@@ -10,6 +10,7 @@ export default StyleSheet.create({
     },
     card_container: {
         width: '50%', 
+        height: 300,
         alignItems: 'left', 
         marginBottom: 20,
     },
@@ -17,7 +18,7 @@ export default StyleSheet.create({
       marginTop: 9,
       fontWeight: '500',
       fontSize: 14,
-      width: '80%',
+      width: '50%',
     },
     card_content: {
         fontWeight: '400',

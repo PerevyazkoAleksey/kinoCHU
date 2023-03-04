@@ -1,5 +1,5 @@
 import { View, Text,Image} from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 //Styles
 import HomeItemsStyles from '../styles/HomeItemsStyles'
@@ -8,6 +8,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export default function Items(props) {
   const navigation = useNavigation();
+  const [items,setItems] = useState(props.items);
   const getColor = (rating) => {
     if (rating<4.5) {
       return <View style={HomeItemsStyles.redRating}><Text style={HomeItemsStyles.rating_text}>{rating}</Text></View>
@@ -17,15 +18,23 @@ export default function Items(props) {
       return <View style={HomeItemsStyles.greenRating}><Text style={HomeItemsStyles.rating_text}>{rating}</Text></View>
     }
   }
-  console.log('items render')
+  useEffect(()=>{
+    setItems(props.items);
+  },[props.items]);
   return (
       <View style={HomeItemsStyles.container}>
-        {props.items.map(el =>
+        {items.map(el =>
         <View style={HomeItemsStyles.card_container}>
-          <TouchableOpacity key={el.id} onPress={()=>navigation.navigate('Details', {title:el.title, image_src:el.image, year: el.year, crew: el.crew, rating: el.imDbRating})}>
-              {getColor(el.imDbRating)}
-              <Image style={{borderRadius: 10}} source={{height: 216,width: 152,uri: el.image}} resizeMode={'cover'} height={216} width={152}/>
-              <Text style={HomeItemsStyles.card_title}>{el.title}</Text>
+          <TouchableOpacity key={el.kinopoiskId} onPress={()=>navigation.navigate('Details', {genre:el.genres,
+                                                                                              image_src:el.posterUrl,
+                                                                                              countries: el.countries,
+                                                                                              year: el.year,
+                                                                                              rating:el.ratingImdb,
+                                                                                              id: el.kinopoiskId,
+                                                                                              type: el.type,})}>
+              {getColor(el.ratingImdb)}
+              <Image style={{borderRadius: 10}} source={{height: 216,width: 152,uri: el.posterUrl}} resizeMode={'cover'} height={216} width={152}/>
+              <Text style={HomeItemsStyles.card_title}>{el.nameRu}</Text>
               <Text style={HomeItemsStyles.card_content}>{el.year}</Text>
           </TouchableOpacity>
         </View>
