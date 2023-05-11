@@ -1,18 +1,29 @@
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import React, {useEffect, useState} from 'react'
+import { doc, setDoc, deleteDoc } from '@firebase/firestore';
+import { collection, addDoc } from "firebase/firestore"; 
+import { auth, db } from '../firebase-config';
 import axios from 'axios';
 
-
+//svg
+import Like from '../assets/img/Like.png'
+import Dislike from '../assets/img/Dislike.png'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DetailsScreen({route}) {
-  const {genres,year,countries,image_src,rating,description,id,type} = route.params;
+  const {id,type} = route.params;
+  const [user, setUser] = useState();
+  const [like, setLike] = useState(true);
   const [seasons, setSeasons] = useState([]);
   const [visable,setVisable] = useState(false);
   const [awards,setAwards] = useState({});
   const [info,setInfo] = useState({});
   const [currentSeason, setCurrentSeason] = useState();
+
   async function getInfo() {
     try {
+      const user = await AsyncStorage.getItem('@user')
+      setUser(user)
       if(type=="TV_SERIES"){
       const {data:{items}} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}/seasons`,{
         headers: {
@@ -39,14 +50,39 @@ export default function DetailsScreen({route}) {
       console.log(error)
     }
   }
+  async function setFavorite() {
+    try{
+      const favRef = setDoc(doc(db, `favoriteList/${user}/favorite`, `${id}`), {
+        id: id,
+        name: info.nameRu,
+        img: info.posterUrlPreview,
+      })
+    } catch(err) {
+      console.log(err)
+    }
+  }
+  async function removeFavorite() {
+    try{
+      await deleteDoc(doc(db, `favoriteList/${user}/favorite`, `${id}`));
+    } catch(err){
+      console.log(err)
+    }
+  }
+  async function checkFavorite() {
+    
+  }
+
+  const changleLike = () => {
+    setLike(!like)
+  }
 
   useEffect(()=>{
-    getInfo();
+      getInfo();
   },[])
 
   return (
     <View style={{flex:1}}>
-      <Image source={{uri: info.posterUrlPreview}} resizeMode={'cover'} style={{height: 300, width: '100%'}}/>
+        <Image source={{uri: info.posterUrlPreview}} resizeMode={'cover'} style={{height: 300, width: '100%'}}/>
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.content}>
@@ -55,8 +91,23 @@ export default function DetailsScreen({route}) {
                 <Text style={styles.title}>{info.nameRu}</Text>
                 <Text style={styles.year}>{info.year}</Text>
               </View>
-              {info.completed?<View style={styles.completed}><Text>Идет</Text></View>
-                                                          :<View style={styles.completed}><Text>Закончен</Text></View>}
+              <View style={styles.row}>
+                <View style={styles.completed}>
+                  {info.completed?
+                    <Text>Закончен</Text>
+                    :<Text>Идет</Text>
+                  }
+                </View>
+                {like ?
+                  <TouchableOpacity onPress={removeFavorite}>
+                    <Image source={Like} resizeMode={'cover'} style={styles.like}/>
+                  </TouchableOpacity>
+                  :
+                  <TouchableOpacity onPress={setFavorite}>
+                    <Image source={Dislike} resizeMode={'cover'} style={styles.like}/>
+                  </TouchableOpacity>
+                }
+              </View>
             </View>
             <View style={styles.awards}>
               <View style={styles.awards_item}>
@@ -108,6 +159,16 @@ export default function DetailsScreen({route}) {
 }
 
 const styles = StyleSheet.create({
+  row: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  like: {
+    height: 24,
+    width: 26,
+  },
   title: {
     marginVertical: 10,
     fontWeight: '700',

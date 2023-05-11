@@ -1,13 +1,25 @@
 import React from 'react'
-import { View, Text,Image } from 'react-native'
+import { View, Text,Image, Button, StyleSheet } from 'react-native'
 import * as Progress from 'react-native-progress';
 import Header from '../components/Header'
-
+import { useNavigation } from '@react-navigation/native';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase-config';
 //Styles
 import ProfileScreenStyles from '../styles/ProfileScreenStyles'
 
 export default function ProfileScreen() {
   const progress = 0.45;
+  const navigation = useNavigation();
+
+  const exite = () => {
+    signOut(auth).then(() => {
+      navigation.navigate("Auth")
+    }).catch((error) => {
+      console.log(error)
+    });
+  }
+
   return (
     <View>
       <Header name={'Profile page'}/>
@@ -39,7 +51,14 @@ export default function ProfileScreen() {
         <View style={ProfileScreenStyles.navigation}>
           
         </View>
+        <View style={styles.active}>
+          <Button onPress={exite} title='Выйти' color={'#F45919'} />
+        </View>
       </View>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+
+})
