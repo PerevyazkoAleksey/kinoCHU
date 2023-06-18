@@ -6,7 +6,7 @@ import HomeItemsStyles from '../styles/HomeItemsStyles'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 
-export default function Items(props) {
+export default function FavoriteItem(props) {
   const navigation = useNavigation();
   const [items,setItems] = useState(props.items);
   const getColor = (rating) => {
@@ -24,8 +24,8 @@ export default function Items(props) {
   return (
       <View style={HomeItemsStyles.container}>
         {items.map(el =>
-        <View style={HomeItemsStyles.card_container} key={el.kinopoiskId}>
-          <TouchableOpacity onPress={()=>navigation.navigate('Details', {genre:el.genres,
+        <View style={HomeItemsStyles.card_container}>
+          <TouchableOpacity key={el.kinopoiskId} onPress={()=>navigation.navigate('Details', {genre:el.genres,
                                                                                               image_src:el.posterUrl,
                                                                                               countries: el.countries,
                                                                                               year: el.year,

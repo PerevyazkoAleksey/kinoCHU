@@ -1,27 +1,16 @@
-import React from 'react'
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
     container: {
-        marginLeft: 20,
-        width:'100%',
-    },
-    card_container: {
-        alignItems: 'left', 
-        marginBottom: 20,
+        marginHorizontal: 20,
+        display: 'flex',
+        justifyContent: 'space-between',
         flexDirection: 'row', 
-        flexWrap: 'wrap',
-    },
-    card_content_container: {
-        width: '50%',
-        marginLeft: 10,
+        flexWrap: 'wrap'
     },
     card_content: {
-        textAlign: 'left',
-        marginTop: 10,
-    },
-    favorite: {
-        marginLeft: '10%', 
-        marginTop: 20,
+        width: '48%', 
+        margin: '1%', 
+        aspectRatio: 2,
     },
 })

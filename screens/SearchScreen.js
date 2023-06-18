@@ -4,19 +4,24 @@ import axios from 'axios'
 
 //Components
 import Header from '../components/Header'
-import Error from '../components/Error'
 import SearchItems from '../components/SearchItems'
-
+import { Error } from '../components/Error'
+import { ActivityIndicator } from 'react-native'
 //Styles
 import SearchScreenStyles from '../styles/SearchScreenStyles'
 
 export default function SearchScreen() {
   const [search, setSearch] = useState('')
   const [result, setResult] = useState()
+  const [isLoading, setIsLoading] = useState(false);
 
   async function getSearchItems(search) {
-    const {data:{results}} = await axios.get(`https://imdb-api.com/en/API/Search/k_3y9a81jt/` + search)
+    setIsLoading(true)
+    const {data:{results}} = await axios.get(`https://imdb-api.com/en/API/Search/k_3y9a81jt/` + search).catch((error)=>{
+      Error(error.code,error.message)
+    })
     setResult(results)
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -36,7 +41,10 @@ export default function SearchScreen() {
           onSubmitEditing={()=> getSearchItems(search)} //Search func 
         />
         <View style={SearchScreenStyles.line}></View>
-        {result ? <SearchItems items={result}/> : <Error content='Введите название фильма'/>} 
+        {isLoading? <ActivityIndicator size="large" color="#FF862D" />:null}
+        <View>
+          {result ? <SearchItems items={result}/> : null} 
+        </View>
       </ScrollView>
     </View>
   )

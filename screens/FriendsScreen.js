@@ -28,7 +28,7 @@ export default function FriendsScreen() {
           <View style={FriendsScreenStyles.line}></View>
           <View>
             {friends.map(el=>
-              <View style={FriendsScreenStyles.friend_container}>
+              <View key={el.name+el.image} style={FriendsScreenStyles.friend_container}>
                 <Image style={{borderRadius: 50, marginLeft: 15, marginVertical: 28}} source={{height: 48,width: 48,uri: el.image}} resizeMode={'cover'}/>
                 <View style={{marginLeft: 14}}>
                   <Text style={FriendsScreenStyles.name}>{el.name}</Text>

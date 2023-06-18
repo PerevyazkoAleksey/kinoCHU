@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState,useEffect } from 'react';
-
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //Screens
 import ProfileScreen from './ProfileScreen'
@@ -13,7 +13,7 @@ import FriendsScreen from './FriendsScreen';
 import HomeNav from './HomeNav';
 import AuthForm from './AuthForm';
 
-const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 const MyTheme = {
   dark: false,
   colors: {
@@ -28,7 +28,7 @@ const MyTheme = {
 export default function App() {
   return (
     <NavigationContainer theme={MyTheme}>
-      <Tab.Navigator
+      <Stack.Navigator
         tabBarOptions={{showLabel: false}}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -56,12 +56,12 @@ export default function App() {
           tabBarInactiveTintColor: '#FEFEFE',
         })}
       >
-            <Tab.Screen name="Home" component={HomeNav} options={{ headerShown: true}}/>
-            <Tab.Screen name="Friends" component={FriendsScreen} options={{ headerShown: false}}/>
-            <Tab.Screen name="Search" component={SearchScreen} options={{ headerShown: false}}/>
-            <Tab.Screen name="List" component={ListScreen} options={{ headerShown: false}}/>
-            <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false}}/>
-      </Tab.Navigator>
+            <Stack.Screen name="Home" component={HomeNav} options={{ headerShown: true}}/>
+            <Stack.Screen name="Friends" component={FriendsScreen} options={{ headerShown: false}}/>
+            <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false}}/>
+            <Stack.Screen name="List" component={ListScreen} options={{ headerShown: false}}/>
+            <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false}}/>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
